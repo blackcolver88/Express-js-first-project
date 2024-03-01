@@ -8,6 +8,9 @@ const User = mongoose.model('User' , {
     },
     age: {
         type: Number
+    },
+    nickname: {
+        type : String
     }
 })
 module.exports= User;
