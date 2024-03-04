@@ -69,6 +69,13 @@ app.put('/update/:id',(req,res)=>{
     .then((updated)=>{res.send(updated)})
     .catch((err)=>{res.send(err)})
 });
-
+app.put('/u/:id',async(req,res)=>{
+    try{
+        id=req.params.id;
+        newData=req.body;
+        up=await User.findByIdAndUpdate({_id:id},newData);
+        res.send(up);
+    }catch(error){res.send(error);}
+})
 
 
