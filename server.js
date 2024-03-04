@@ -10,8 +10,8 @@ app.post('/add',(req ,res)=>{
     data =req.body;
     usr= new User(data);
     usr.save()
-    .then((savedUser)=>{res.send(savedUser)})
-    .catch((err)=>{res.send(err)})
+    .then((savedUser)=>{res.status(200).send(savedUser)})
+    .catch((err)=>{res.status(400).send(err)})
 
 });
 app.post('/create', async (req ,res)=>{
@@ -20,62 +20,62 @@ app.post('/create', async (req ,res)=>{
         data =req.body;
         usr= new User(data);
         savedUser = await usr.save();
-        res.send(savedUser);
-    } catch (error) {res.send(error)}
+        res.status(200).send(savedUser);
+    } catch (error) {res.status(400).send(error)}
     });
 app.get('/get_all',(req,res)=>{
     User.find()
-        .then((users)=>{res.send(users);})
-        .catch((err)=>{res.send(err);})
+        .then((users)=>{res.status(200).send(users);})
+        .catch((err)=>{res.status(400).send(err);})
 });
 app.get('/all',async (req,res)=>{
     try{
         users = await User.find();
-        res.send(users);
+        res.status(200).send(users);
 
-    }catch (error) {res.send(error);}
+    }catch (error) {res.status(400).send(error);}
 });
 app.get('/getbyid/:id', (req,res)=>{
     id=req.params.id;
     User.findOne({_id:id})
-    .then((user)=>{res.send(user)})
-    .catch((err)=>{res.send(err)})
+    .then((user)=>{res.status(200).send(user)})
+    .catch((err)=>{res.status(400).send(err)})
 });
 app.get('/getByid/:id', async (req,res)=>{
     try{
         id=req.params.id;
         us = await User.findOne({_id:id});
-        res.send(us);
+        res.status(200).send(us);
 
-    }catch (error) {res.send(error); }
+    }catch (error) {res.status(400).send(error); }
 });
 app.delete('/delete/:id',(req,res)=>{
     id =req.params.id;
     User.findByIdAndDelete({_id:id})
-    .then((deletedUser)=>{res.send(deletedUser)}
-    ).catch((err)=>{res.send(err)})
+    .then((deletedUser)=>{res.status(200).send(deletedUser)}
+    ).catch((err)=>{res.status(400).send(err)})
 });
 app.delete('/deleter/:id', async (req,res)=>{
     try{
     id =req.params.id;
     del = await User.findByIdAndDelete({_id:id});
-    res.send(del);
-    }catch(error){res.send(error);}
+    res.status(200).send(del);
+    }catch(error){res.status(400).send(error);}
 });
 app.put('/update/:id',(req,res)=>{
     id=req.params.id;
     newData = req.body;
     User.findByIdAndUpdate({_id:id}, newData)
-    .then((updated)=>{res.send(updated)})
-    .catch((err)=>{res.send(err)})
+    .then((updated)=>{res.status(200).send(updated)})
+    .catch((err)=>{res.status(400).send(err)})
 });
 app.put('/u/:id',async(req,res)=>{
     try{
         id=req.params.id;
         newData=req.body;
         up=await User.findByIdAndUpdate({_id:id},newData);
-        res.send(up);
-    }catch(error){res.send(error);}
+        res.status(200).send(up);
+    }catch(error){res.status(400).send(error);}
 })
 
 
