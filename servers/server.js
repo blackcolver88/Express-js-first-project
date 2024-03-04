@@ -1,6 +1,6 @@
 const express= require('express');
-const User=require('./models/user')
-require('./config/connect')
+const User=require('../models/user')
+require('../config/connect')
 const app=express();
 app.use(express.json());
 app.listen(3000,()=>{
@@ -23,6 +23,15 @@ app.post('/create', async (req ,res)=>{
         res.status(200).send(savedUser);
     } catch (error) {res.status(400).send(error)}
     });
+app.post('/createp', async (req ,res)=>{
+        try
+        {
+            data =req.body;
+            prod= new Product(data);
+            savedProduct = await prod.save();
+            res.status(200).send(savedProduct);
+        } catch (error) {res.status(400).send(error)}
+        });    
 app.get('/get_all',(req,res)=>{
     User.find()
         .then((users)=>{res.status(200).send(users);})
