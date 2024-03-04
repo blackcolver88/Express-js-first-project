@@ -9,7 +9,7 @@ const User = mongoose.model('User' , {
     age: {
         type: Number
     },
-    nickname: {
+    pseudo: {
         type : String
     }
 })
