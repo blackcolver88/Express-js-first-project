@@ -1,12 +1,8 @@
-const express= require('express');
+const express=require('express');
+const router=express.Router();
 const Product=require('../models/product')
-require('../config/connect')
-const app=express();
-app.use(express.json());
-app.listen(3000,()=>{
-    console.log("hello");
-});
-app.post('/createp', async (req ,res)=>{
+
+router.post('/create', async (req ,res)=>{
     try
     {
         data =req.body;
@@ -15,14 +11,14 @@ app.post('/createp', async (req ,res)=>{
         res.status(200).send(savedProduct);
     } catch (error) {res.status(400).send(error)}
     });
-app.get('/allp',async (req,res)=>{
+router.get('/all',async (req,res)=>{
         try{
             prods = await Product.find();
             res.status(200).send(prods);
     
         }catch (error) {res.status(400).send(error);}
 });
-app.get('/getByidp/:id', async (req,res)=>{
+router.get('/getByid/:id', async (req,res)=>{
     try{
         id=req.params.id;
         us = await Product.findOne({_id:id});
@@ -30,14 +26,14 @@ app.get('/getByidp/:id', async (req,res)=>{
 
     }catch (error) {res.status(400).send(error); }
 });
-app.delete('/deleterp/:id', async (req,res)=>{
+router.delete('/delete/:id', async (req,res)=>{
     try{
     id =req.params.id;
     del = await Product.findByIdAndDelete({_id:id});
     res.status(200).send(del);
     }catch(error){res.status(400).send(error);}
 });
-app.put('/up/:id',async(req,res)=>{
+router.put('/update/:id',async(req,res)=>{
     try{
         id=req.params.id;
         newData=req.body;
@@ -45,3 +41,7 @@ app.put('/up/:id',async(req,res)=>{
         res.status(200).send(up);
     }catch(error){res.status(400).send(error);}
 })
+
+
+
+module.exports = router;

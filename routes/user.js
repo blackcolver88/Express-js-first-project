@@ -1,12 +1,8 @@
-const express= require('express');
+const express=require('express');
+const router=express.Router();
 const User=require('../models/user')
-require('../config/connect')
-const app=express();
-app.use(express.json());
-app.listen(3000,()=>{
-    console.log("hello");
-});
-app.post('/add',(req ,res)=>{
+
+router.post('/add',(req ,res)=>{
     data =req.body;
     usr= new User(data);
     usr.save()
@@ -14,7 +10,7 @@ app.post('/add',(req ,res)=>{
     .catch((err)=>{res.status(400).send(err)})
 
 });
-app.post('/create', async (req ,res)=>{
+router.post('/create', async (req ,res)=>{
     try
     {
         data =req.body;
@@ -23,7 +19,7 @@ app.post('/create', async (req ,res)=>{
         res.status(200).send(savedUser);
     } catch (error) {res.status(400).send(error)}
     });
-app.post('/createp', async (req ,res)=>{
+router.post('/createp', async (req ,res)=>{
         try
         {
             data =req.body;
@@ -32,25 +28,25 @@ app.post('/createp', async (req ,res)=>{
             res.status(200).send(savedProduct);
         } catch (error) {res.status(400).send(error)}
         });    
-app.get('/get_all',(req,res)=>{
+router.get('/get_all',(req,res)=>{
     User.find()
         .then((users)=>{res.status(200).send(users);})
         .catch((err)=>{res.status(400).send(err);})
 });
-app.get('/all',async (req,res)=>{
+router.get('/all',async (req,res)=>{
     try{
         users = await User.find();
         res.status(200).send(users);
 
     }catch (error) {res.status(400).send(error);}
 });
-app.get('/getbyid/:id', (req,res)=>{
+router.get('/getbyid/:id', (req,res)=>{
     id=req.params.id;
     User.findOne({_id:id})
     .then((user)=>{res.status(200).send(user)})
     .catch((err)=>{res.status(400).send(err)})
 });
-app.get('/getByid/:id', async (req,res)=>{
+router.get('/getByid/:id', async (req,res)=>{
     try{
         id=req.params.id;
         us = await User.findOne({_id:id});
@@ -58,27 +54,27 @@ app.get('/getByid/:id', async (req,res)=>{
 
     }catch (error) {res.status(400).send(error); }
 });
-app.delete('/delete/:id',(req,res)=>{
+router.delete('/delete/:id',(req,res)=>{
     id =req.params.id;
     User.findByIdAndDelete({_id:id})
     .then((deletedUser)=>{res.status(200).send(deletedUser)}
     ).catch((err)=>{res.status(400).send(err)})
 });
-app.delete('/deleter/:id', async (req,res)=>{
+router.delete('/deleter/:id', async (req,res)=>{
     try{
     id =req.params.id;
     del = await User.findByIdAndDelete({_id:id});
     res.status(200).send(del);
     }catch(error){res.status(400).send(error);}
 });
-app.put('/update/:id',(req,res)=>{
+router.put('/update/:id',(req,res)=>{
     id=req.params.id;
     newData = req.body;
     User.findByIdAndUpdate({_id:id}, newData)
     .then((updated)=>{res.status(200).send(updated)})
     .catch((err)=>{res.status(400).send(err)})
 });
-app.put('/u/:id',async(req,res)=>{
+router.put('/u/:id',async(req,res)=>{
     try{
         id=req.params.id;
         newData=req.body;
@@ -88,3 +84,5 @@ app.put('/u/:id',async(req,res)=>{
 })
 
 
+
+module.exports = router;
