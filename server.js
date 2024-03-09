@@ -7,9 +7,11 @@ const app=express();
 app.use(express.json());
 app.use('/product',productRoute);
 app.use('/user',userRoute);
+app.use('/getimage',express.static('./uploads'));
 app.listen(3000,()=>{
     console.log("server work");
 });
+
 
 
 
