@@ -1,15 +1,18 @@
 const express=require('express');
 const router=express.Router();
 const User=require('../models/user')
-
-router.post('/add',(req ,res)=>{
-    data =req.body;
-    usr= new User(data);
+const bcrypt=require('bcrypt');
+router.post('/register',async(req,res)=>{
+    data=req.body;
+    usr=new User(data);
+    salt = bcrypt.genSaltSync(10);
+    cryptedPass = await bcrypt.hashSync(data.password, salt);
+    usr.password=cryptedPass;
     usr.save()
-    .then((savedUser)=>{res.status(200).send(savedUser)})
-    .catch((err)=>{res.status(400).send(err)})
+       .then((saved)=>{res.status(200).send(saved);})
+       .catch((err)=>{res.status(400).send(err);})
 
-});
+})
 router.post('/create', async (req ,res)=>{
     try
     {
@@ -18,16 +21,7 @@ router.post('/create', async (req ,res)=>{
         savedUser = await usr.save();
         res.status(200).send(savedUser);
     } catch (error) {res.status(400).send(error)}
-    });
-router.post('/createp', async (req ,res)=>{
-        try
-        {
-            data =req.body;
-            prod= new Product(data);
-            savedProduct = await prod.save();
-            res.status(200).send(savedProduct);
-        } catch (error) {res.status(400).send(error)}
-        });    
+    });  
 router.get('/get_all',(req,res)=>{
     User.find()
         .then((users)=>{res.status(200).send(users);})

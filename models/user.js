@@ -9,8 +9,11 @@ const User = mongoose.model('User' , {
     age: {
         type: Number
     },
-    pseudo: {
+    email: {
         type : String
+    },
+    password: {
+        type: String
     }
 })
 module.exports= User;
