@@ -9,7 +9,7 @@ const mystorage=multer.diskStorage({
         let date=Date.now();
         let fl=date+'.'+file.mimetype.split('/')[1];
         redirect(null,fl);
-        filename=f1;
+        filename=fl;
     }
 })
 const upload=multer({storage: mystorage})
